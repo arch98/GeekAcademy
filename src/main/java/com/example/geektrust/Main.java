@@ -14,9 +14,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        ProgrammeService programmeService = new ProgrammeService();
-        DiscountService discountService = new DiscountService();
-        PrintBillService printBillService = new PrintBillService(discountService,programmeService);
+        GeekAcademy geekAcademy = new GeekAcademy();
 
        // Sample code to read from file passed as command line argument
         try {
@@ -27,25 +25,7 @@ public class Main {
             while (sc.hasNextLine()) {
                //Add your code here to process input commands
                 String[] input = sc.nextLine().split(" ", 2);
-
-                switch (input[0]){
-                    case "ADD_PROGRAMME":
-                        String[] programmes = input[1].split(" ",2);
-                        Programme programme = new Programme(ProgrammeEnum.valueOf(programmes[0]),Integer.parseInt(programmes[1]));
-                        programmeService.addProgramme(programme);
-                        break;
-                    case "APPLY_COUPON":
-                            discountService.addCoupon(Coupon.valueOf(input[1]));
-                            break;
-                    case "ADD_PRO_MEMBERSHIP":
-                        programmeService.addPromember();
-                        break;
-                    case "PRINT_BILL":
-                        printBillService.printBill();
-                        break;
-                    default:
-                        break;
-                }
+                geekAcademy.run(input);
             }
             sc.close(); // closes the scanner
         } catch (IOException e) {

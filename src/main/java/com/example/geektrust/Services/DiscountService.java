@@ -3,6 +3,7 @@ package com.example.geektrust.Services;
 import com.example.geektrust.Constants.CouponAmount;
 import com.example.geektrust.Constants.Programme;
 import com.example.geektrust.Enums.Coupon;
+import com.example.geektrust.Interface.CouponDiscount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,30 +18,22 @@ public class DiscountService {
         this.appliedCoupons.add(coupon);
     }
 
+
     public CouponAmount applyCoupons(double total_sum, int num_courses,List<Programme>programmeList){
        // Automatically gets added.
+
+        CouponDiscount couponDiscount = null;
         if(num_courses >= 4){
-            double val = programmeList.get(0).getAmount();
-            for(Programme programme:programmeList){
-                if(val > programme.getAmount()){
-                    val = programme.getAmount();
-                }
-            }
-            total_sum -= val;
-            return new CouponAmount(Coupon.B4G1,total_sum,val);
+            couponDiscount = new B4g1Coupon();
+        }else if(total_sum >= 10000 && this.appliedCoupons.contains(Coupon.DEAL_G20)){
+            couponDiscount = new ExplicitAppliedCoupons(Coupon.DEAL_G20);
+        }else if(num_courses >= 2 && this.appliedCoupons.contains(Coupon.DEAL_G5)){
+            couponDiscount = new ExplicitAppliedCoupons(Coupon.DEAL_G5);
         }
 
-        if(total_sum >= 10000 && this.appliedCoupons.contains(Coupon.DEAL_G20)){
-            double discount = total_sum*(0.2d);
-            total_sum -= discount;
-            return new CouponAmount(Coupon.DEAL_G20,total_sum,discount);
+        if(couponDiscount == null){
+            return new CouponAmount(Coupon.NONE,total_sum,0.0);
         }
-
-        if(num_courses >= 2 && this.appliedCoupons.contains(Coupon.DEAL_G5)){
-            double discount = total_sum*(0.05d);
-            total_sum -= discount;
-            return new CouponAmount(Coupon.DEAL_G5,total_sum,discount);
-        }
-        return new CouponAmount(null,total_sum,0.0);
+       return couponDiscount.couponApplied(total_sum,num_courses,programmeList);
     }
 }

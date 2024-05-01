@@ -6,19 +6,18 @@ import java.util.Comparator;
 
 public class Programme{
 
-    private final ProgrammeEnum programmeEnum;
+    private final String programmeName;
     private final int quantity;
-
     private double amount;
 
-    public Programme(ProgrammeEnum programmeEnum, int quantity){
-        this.programmeEnum = programmeEnum;
+    public Programme(String programmeEnum, int quantity){
+        this.programmeName = programmeEnum;
         this.quantity =quantity;
         this.amount = 0.0;
     }
 
-    public ProgrammeEnum getProgrammeEnum() {
-        return programmeEnum;
+    public String getProgrammeName() {
+        return programmeName;
     }
 
     public int getQuantity() {

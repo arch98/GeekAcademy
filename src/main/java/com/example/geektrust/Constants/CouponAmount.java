@@ -4,10 +4,9 @@ import com.example.geektrust.Enums.Coupon;
 
 public class CouponAmount {
 
-    private Coupon coupon;
-    private double amount;
-
-    private double discount;
+    private final Coupon coupon;
+    private final double amount;
+    private final double discount;
 
     public CouponAmount(Coupon coupon,double amount,double discount){
         this.coupon = coupon;
